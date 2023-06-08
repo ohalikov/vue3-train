@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form class="form">
+    <form class="form" @submit.prevent>
       <h4>Создание поста</h4>
       <input
         v-bind:value="title"
@@ -30,18 +30,27 @@ export default {
   data() {
     return {
       posts: [
-        { id: 1, title: 'Javascript1', body: 'Описание ящыка' },
-        { id: 2, title: 'Javascript2', body: 'Описание ящыка' },
-        { id: 3, title: 'Javascript3', body: 'Описание ящыка' },
-        { id: 4, title: 'Javascript4', body: 'Описание ящыка' },
-        { id: 5, title: 'Javascript5', body: 'Описание ящыка' },
+        { id: 1, title: "Javascript1", body: "Описание ящыка" },
+        { id: 2, title: "Javascript2", body: "Описание ящыка" },
+        { id: 3, title: "Javascript3", body: "Описание ящыка" },
+        { id: 4, title: "Javascript4", body: "Описание ящыка" },
+        { id: 5, title: "Javascript5", body: "Описание ящыка" },
       ],
-      title: '',
-      body: '',
+      title: "",
+      body: "",
     };
   },
   methods: {
-    createPost() {},
+    createPost(event) {
+      const newPost = {
+        id: Date.now(),
+        title: this.title,
+        body: this.body,
+      };
+      this.posts.push(newPost);
+      this.title = "";
+      this.body = "";
+    },
   },
 };
 </script>
