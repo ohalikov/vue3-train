@@ -4,7 +4,7 @@
     <div><strong>Описание поста:</strong> {{ post.body }}</div>
 
     <div>
-      <my-button class="btn" @click="createPost">Удалить</my-button>
+      <my-button>Удалить</my-button>
     </div>
   </div>
 </template>
