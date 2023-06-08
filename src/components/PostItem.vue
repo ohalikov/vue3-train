@@ -4,7 +4,7 @@
     <div><strong>Описание поста:</strong> {{ post.body }}</div>
 
     <div>
-      <my-button>Удалить</my-button>
+      <my-button @click="removeElement">Удалить</my-button>
     </div>
   </div>
 </template>
@@ -15,6 +15,11 @@ export default {
     post: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    removeElement() {
+      this.$emit('remove', this.post);
     },
   },
 };

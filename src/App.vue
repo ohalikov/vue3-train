@@ -2,9 +2,19 @@
   <!-- Тут мы подписываемся на событие create из дочернего компонента 
     где от туда мы передаем post
   -->
-  <div class="app"></div>
-  <post-form @create="createPost" />
-  <post-list :posts="posts" />
+
+  <div class="app">
+    <h1>Страница с постами</h1>
+    <my-button style="margin: 15px 0" @click="showDialog"
+      >Создать пост</my-button
+    >
+
+    <my-dialog v-model:show="dialogVisible" @click.stop>
+      <post-form @create="createPost" />
+    </my-dialog>
+
+    <post-list :posts="posts" @remove="removePost" />
+  </div>
 </template>
 
 <script>
@@ -26,6 +36,7 @@ export default {
       ],
       title: '',
       body: '',
+      dialogVisible: false,
     };
   },
   methods: {
@@ -33,6 +44,15 @@ export default {
       this.posts.push(post);
       this.title = '';
       this.body = '';
+      this.dialogVisible = false;
+    },
+    removePost(removingPost) {
+      this.posts = this.posts.filter(
+        (currentPost) => currentPost.id !== removingPost.id
+      );
+    },
+    showDialog() {
+      this.dialogVisible = true;
     },
   },
 };
