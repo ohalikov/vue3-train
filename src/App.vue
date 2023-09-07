@@ -6,12 +6,13 @@
   <div class="app">
     <h1>Страница с постами</h1>
     <div class="app__btns">
+      <input type="text" v-model="modificatorValue" />
       <my-button style="" @click="showDialog">Создать пост</my-button>
       <my-select v-model="selectedSort" :options="sortOptions" />
-      <div>Selected: {{ selectedSort }}</div>
+      <!-- <div>Selected: {{ selectedSort }}</div> -->
     </div>
 
-    <my-dialog v-model:show="dialogVisible" @click.stop>
+    <my-dialog v-model:openDialog="dialogVisible" @click.stop>
       <post-form @create="createPost" />
     </my-dialog>
 
@@ -41,6 +42,7 @@ export default {
         { value: 'title', name: 'по названию' },
         { value: 'body', name: 'по описанию' },
       ],
+      modificatorValue: '',
     };
   },
   methods: {
@@ -81,6 +83,14 @@ export default {
   },
   mounted() {
     this.fetchPosts();
+  },
+  watch: {
+    selectedSort(newValue) {
+      console.log(newValue);
+    },
+    dialogVisible(newValue2) {
+      console.log(newValue2);
+    },
   },
 };
 </script>
