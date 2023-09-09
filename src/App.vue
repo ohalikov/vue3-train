@@ -86,7 +86,9 @@ export default {
   },
   watch: {
     selectedSort(newValue) {
-      console.log(newValue);
+      this.posts.sort((post1, post2) => {
+        return post1[newValue].localeCompare(post2[newValue]);
+      });
     },
     dialogVisible(newValue2) {
       console.log(newValue2);
