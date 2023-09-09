@@ -5,8 +5,8 @@
 
   <div class="app">
     <h1>Страница с постами</h1>
+    <my-input v-model="searchQuery" placeholder="Поиск..." />
     <div class="app__btns">
-      <input type="text" v-model="modificatorValue" />
       <my-button style="" @click="showDialog">Создать пост</my-button>
       <my-select v-model="selectedSort" :options="sortOptions" />
       <!-- <div>Selected: {{ selectedSort }}</div> -->
@@ -17,7 +17,7 @@
     </my-dialog>
 
     <post-list
-      :posts="sortedPosts"
+      :posts="searchPosts"
       @remove="removePost"
       v-if="!isPostLoading"
     />
@@ -46,7 +46,7 @@ export default {
         { value: 'title', name: 'по названию' },
         { value: 'body', name: 'по описанию' },
       ],
-      modificatorValue: '',
+      searchQuery: '',
     };
   },
   methods: {
@@ -92,6 +92,11 @@ export default {
     sortedPosts() {
       return [...this.posts].sort((post1, post2) =>
         post1[this.selectedSort]?.localeCompare(post2[this.selectedSort])
+      );
+    },
+    searchPosts() {
+      return this.sortedPosts.filter((post) =>
+        post.title.includes(this.searchQuery)
       );
     },
   },
