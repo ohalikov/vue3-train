@@ -4,7 +4,8 @@
     <div><strong>Название поста:</strong> {{ post.title }}</div>
     <div><strong>Описание поста:</strong> {{ post.body }}</div>
 
-    <div>
+    <div class="post__btns">
+      <my-button @click="$router.push(`/posts/${post.id}`)">Открыть</my-button>
       <my-button @click="removeElement">Удалить</my-button>
     </div>
   </div>
@@ -35,5 +36,8 @@ export default {
   /* flex-direction: column; */
   align-items: center;
   justify-content: space-between;
+}
+.post__btns {
+  display: flex;
 }
 </style>
