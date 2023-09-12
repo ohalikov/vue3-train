@@ -5,7 +5,7 @@
 
   <div>
     <h1>Страница с постами</h1>
-    <my-input v-model="searchQuery" placeholder="Поиск..." />
+    <my-input v-focus v-model="searchQuery" placeholder="Поиск..." />
     <div class="app__btns">
       <my-button style="" @click="showDialog">Создать пост</my-button>
       <my-select v-model="selectedSort" :options="sortOptions" />
@@ -22,14 +22,14 @@
       v-if="!isPostLoading"
     />
     <div v-else>Идёт загрузка ...</div>
-    <div ref="observer" class="observer"></div>
+    <div v-intersection="loadMorePosts" class="observer"></div>
   </div>
 </template>
 
 <script>
-import PostForm from '../PostForm.vue';
-import PostList from '../PostList.vue';
-import axios from 'axios';
+import PostForm from "../PostForm.vue";
+import PostList from "../PostList.vue";
+import axios from "axios";
 export default {
   components: {
     PostList,
@@ -38,16 +38,16 @@ export default {
   data() {
     return {
       posts: [],
-      title: '',
-      body: '',
+      title: "",
+      body: "",
       dialogVisible: false,
       isPostLoading: false,
-      selectedSort: '',
+      selectedSort: "",
       sortOptions: [
-        { value: 'title', name: 'по названию' },
-        { value: 'body', name: 'по описанию' },
+        { value: "title", name: "по названию" },
+        { value: "body", name: "по описанию" },
       ],
-      searchQuery: '',
+      searchQuery: "",
       page: 1,
       limit: 10,
       totalPages: 0,
@@ -56,8 +56,8 @@ export default {
   methods: {
     createPost(post) {
       this.posts.push(post);
-      this.title = '';
-      this.body = '';
+      this.title = "";
+      this.body = "";
       this.dialogVisible = false;
     },
     removePost(removingPost) {
@@ -74,7 +74,7 @@ export default {
         setTimeout(
           async () => {
             const response = await axios.get(
-              'https://jsonplaceholder.typicode.com/posts?',
+              "https://jsonplaceholder.typicode.com/posts?",
               {
                 params: {
                   _page: this.page,
@@ -83,7 +83,7 @@ export default {
               }
             );
             this.totalPages = Math.ceil(
-              response.headers['x-total-count'] / this.limit
+              response.headers["x-total-count"] / this.limit
             );
             this.posts = response.data;
             this.isPostLoading = false;
@@ -100,7 +100,7 @@ export default {
       try {
         this.page += 1;
         const response = await axios.get(
-          'https://jsonplaceholder.typicode.com/posts?',
+          "https://jsonplaceholder.typicode.com/posts?",
           {
             params: {
               _page: this.page,
@@ -109,29 +109,29 @@ export default {
           }
         );
         this.totalPages = Math.ceil(
-          response.headers['x-total-count'] / this.limit
+          response.headers["x-total-count"] / this.limit
         );
         this.posts = [...this.posts, ...response.data];
       } catch (error) {
-        alert('error', error);
+        alert("error", error);
       }
     },
   },
   mounted() {
     this.fetchPosts();
     console.log(this.$refs.observer);
-    const options = {
-      rootMargin: '0px',
-      threshold: 1.0,
-    };
-    const callback = (entries, observer) => {
-      if (entries[0].isIntersecting && this.page < this.totalPages) {
-        this.loadMorePosts();
-      }
-    };
+    // const options = {
+    //   rootMargin: "0px",
+    //   threshold: 1.0,
+    // };
+    // const callback = (entries, observer) => {
+    //   if (entries[0].isIntersecting && this.page < this.totalPages) {
+    //     this.loadMorePosts();
+    //   }
+    // };
 
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.$refs.observer);
+    // const observer = new IntersectionObserver(callback, options);
+    // observer.observe(this.$refs.observer);
   },
   computed: {
     sortedPosts() {

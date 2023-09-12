@@ -2,7 +2,7 @@
   <form class="form" @submit.prevent>
     <h4>Создание поста</h4>
     <div>
-      <my-input v-model.trim="post.title" placeholder="Название" />
+      <my-input v-focus v-model.trim="post.title" placeholder="Название" />
       <my-input v-model.trim="post.body" placeholder="Описание" />
     </div>
     <my-button class="create-post-button" @click="createPost"
@@ -16,18 +16,18 @@ export default {
   data() {
     return {
       post: {
-        title: '',
-        body: '',
+        title: "",
+        body: "",
       },
     };
   },
   methods: {
     createPost() {
       this.post.id = Date.now();
-      this.$emit('create', this.post); // передаем в родительский компонент пост
+      this.$emit("create", this.post); // передаем в родительский компонент пост
       this.post = {
-        title: '',
-        body: '',
+        title: "",
+        body: "",
       };
     },
   },
