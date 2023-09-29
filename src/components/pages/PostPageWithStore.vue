@@ -1,10 +1,23 @@
 <template>
   <!-- Тут мы подписываемся на событие create из дочернего компонента 
-      где от туда мы передаем post
-    -->
+        где от туда мы передаем post
+      -->
 
   <div>
-    <h1>Страница с постами</h1>
+    <h1>
+      {{
+        $store.state.isAuth
+          ? 'Пользователь Авторизован'
+          : 'Пользователь не авторизован'
+      }}
+    </h1>
+    <h1>{{ $store.state.likes }}</h1>
+    <h1>{{ $store.getters.doubleLikes }}</h1>
+    <div>
+      <my-button @click="$store.commit('incrementLikes')">Like</my-button>
+      <my-button @click="$store.commit('decrementLikes')">Dislike</my-button>
+    </div>
+    <h1>Страница с постами!!</h1>
     <my-input v-focus v-model="searchQuery" placeholder="Поиск..." />
     <div class="app__btns">
       <my-button style="" @click="showDialog">Создать пост</my-button>
