@@ -22,7 +22,7 @@ export const postModule = {
         post1[state.selectedSort]?.localeCompare(post2[state.selectedSort])
       );
     },
-    searchBySortedPosts(state, getters) {
+    sortedAndSearchedPosts(state, getters) {
       return getters.sortedPosts.filter((post) =>
         post.title?.toLowerCase().includes(state.searchQuery?.toLowerCase())
       );

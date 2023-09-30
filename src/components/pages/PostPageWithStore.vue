@@ -5,18 +5,27 @@
 
   <div>
     <h1>Страница с постами!!</h1>
-    <!-- <my-input v-focus v-model="searchQuery" placeholder="Поиск..." />
+    <my-input
+      v-focus
+      :model-value="searchQuery"
+      @update:model-value="setSearchQuery"
+      placeholder="Поиск..."
+    />
     <div class="app__btns">
       <my-button style="" @click="showDialog">Создать пост</my-button>
-      <my-select v-model="selectedSort" :options="sortOptions" />
+      <my-select
+        :model-value="selectedSort"
+        @update:model-value="setSelectedSort"
+        :options="sortOptions"
+      />
     </div>
 
     <my-dialog v-model:openDialog="dialogVisible" @click.stop>
       <post-form @create="createPost" />
-    </my-dialog> -->
+    </my-dialog>
 
     <post-list
-      :posts="searchBySortedPosts"
+      :posts="sortedAndSearchedPosts"
       @remove="removePost"
       v-if="!isPostLoading"
     />
@@ -43,6 +52,8 @@ export default {
   methods: {
     ...mapMutations({
       setPage: 'post/setPage',
+      setSearchQuery: 'post/setSearchQuery',
+      setSelectedSort: 'post/setSelectedSort',
     }),
     ...mapActions({
       loadMorePosts: 'post/loadMorePosts',
@@ -64,18 +75,7 @@ export default {
     },
   },
   mounted() {
-    // this.fetchPosts();
-    // const options = {
-    //   rootMargin: "0px",
-    //   threshold: 1.0,
-    // };
-    // const callback = (entries, observer) => {
-    //   if (entries[0].isIntersecting && this.page < this.totalPages) {
-    //     this.loadMorePosts();
-    //   }
-    // };
-    // const observer = new IntersectionObserver(callback, options);
-    // observer.observe(this.$refs.observer);
+    this.fetchPosts();
   },
   computed: {
     ...mapState({
@@ -92,7 +92,7 @@ export default {
     }),
     ...mapGetters({
       sortedPosts: 'post/sortedPosts',
-      searchBySortedPosts: 'post/searchBySortedPosts',
+      sortedAndSearchedPosts: 'post/sortedAndSearchedPosts',
     }),
   },
 };
